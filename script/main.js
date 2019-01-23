@@ -62,6 +62,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const ctx = canvas.getContext('2d');
 
+  const resize = () => {
+    const clientWidth = document.documentElement.clientWidth;
+    const clientHeight = document.documentElement.clientHeight;
+
+    const clientRatio = clientWidth / clientHeight;
+
+    if (clientRatio < 1) {
+      canvas.style.width = '100%';
+      canvas.style.height = clientWidth + 'px';
+    } else {
+      canvas.style.width = 'auto';
+      canvas.style.height = '100%';
+    }
+  };
+
   const worker = arr => {
     const imageData = ctx.getImageData(0, 0, canvas_side, canvas_side);
     const data = imageData.data;
@@ -98,5 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => worker(next_step), 500);
   };
 
+  window.addEventListener('resize', resize);
+
+  resize();
   worker(world);
 });
